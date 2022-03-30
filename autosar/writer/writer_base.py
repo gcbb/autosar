@@ -6,7 +6,7 @@ import math
 import collections
 from autosar.element import DataElement
 from decimal import Decimal
-
+import logging
 class BaseWriter:
     def __init__(self, version=3.0, patch=None):
         self.version=version
@@ -255,6 +255,9 @@ class BaseWriter:
             lines.extend(self.indent(self._writeArrayValueSpecificationXML(value), 1))
         elif isinstance(value, autosar.constant.ApplicationValue):
             lines.extend(self.indent(self._writeApplicationValueSpecificationXML(value), 1))
+        elif isinstance(value, autosar.constant.ConstantReference):
+            lines.extend(self.indent(self._writeConstantRefenceXML(value), 1))
+
         else:
             raise NotImplementedError(str(type(value)))
         lines.append('</%s>'%value.tag(self.version))
@@ -299,6 +302,19 @@ class BaseWriter:
             lines.extend(self._writeSwValueContXML(ws, value.swValueCont))
         return lines
 
+    def _writeConstantRefenceXML(self, value):
+        # import ipdb as pdb;pdb.set_trace()
+        # ws=value.rootWS()
+        # assert(ws is not None)
+        lines=[]
+        if value.label is not None:
+            lines.append('<SHORT-LABEL>{}</SHORT-LABEL>'.format(value.label))
+        # if value.swAxisCont is not None:
+        lines.append('<CONSTANT-REF DEST="CONSTANT-SPECIFICATION">{}</CONSTANT-REF>'.format(value.value))
+            # lines.extend(self._writeSwAxisContXML(ws, value.swAxisCont))
+        # if value.swValueCont is not None:
+            # lines.extend(self._writeSwValueContXML(ws, value.swValueCont))
+        return lines
     def _writeSwAxisContXML(self, ws, elem):
         lines = []
         lines.append('<SW-AXIS-CONTS>')

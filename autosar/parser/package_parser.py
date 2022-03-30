@@ -30,6 +30,7 @@ class PackageParser:
         if xmlRoot.find('ELEMENTS'):
             elementNames = set([x.name for x in package.elements])
             for xmlElement in xmlRoot.findall('./ELEMENTS/*'):
+                
                 parserObject = self.switcher.get(xmlElement.tag)
                 if parserObject is not None:
                     element = parserObject.parseElement(xmlElement,package)

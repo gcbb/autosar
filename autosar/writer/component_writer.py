@@ -4,7 +4,7 @@ import autosar.workspace
 import autosar.constant
 import autosar.mode
 from autosar.writer.behavior_writer import XMLBehaviorWriter
-
+import logging
 class XMLComponentTypeWriter(ElementWriter):
     def __init__(self,version, patch):
         super().__init__(version, patch)
@@ -213,10 +213,13 @@ class XMLComponentTypeWriter(ElementWriter):
             else:
                 lines.append('<NONQUEUED-RECEIVER-COM-SPEC>')
                 lines.append(self.indent('<DATA-ELEMENT-REF DEST="%s">%s</DATA-ELEMENT-REF>'%(dataElem.tag(self.version),dataElem.ref),1))
-                lines.append(self.indent('<USES-END-TO-END-PROTECTION>false</USES-END-TO-END-PROTECTION>',1))
-
-                lines.append(self.indent('<ALIVE-TIMEOUT>%d</ALIVE-TIMEOUT>'%(comspec.aliveTimeout),1))
-                lines.append(self.indent('<ENABLE-UPDATE>false</ENABLE-UPDATE>',1))
+                # lines.append(self.indent('<USES-END-TO-END-PROTECTION>false</USES-END-TO-END-PROTECTION>',1))
+                lines.append(self.indent('<USES-END-TO-END-PROTECTION>{}</USES-END-TO-END-PROTECTION>'.format(self.toBooleanStr(comspec.useEndToEndProtection)), 1))
+                # logging.debug(comspec.aliveTimeout)    
+                if not (comspec.aliveTimeout):
+                    comspec.aliveTimeout = 0
+                lines.append(self.indent('<ALIVE-TIMEOUT>%d</ALIVE-TIMEOUT>'%int(float(comspec.aliveTimeout)),1))
+                lines.append(self.indent('<ENABLE-UPDATE>{}</ENABLE-UPDATE>'.format(self.toBooleanStr(comspec.isUpdate)),1))
                 lines.append(self.indent('<FILTER>',1))
                 lines.append(self.indent('<DATA-FILTER-TYPE>ALWAYS</DATA-FILTER-TYPE>',2))
                 lines.append(self.indent('</FILTER>',1))
@@ -342,7 +345,7 @@ class XMLComponentTypeWriter(ElementWriter):
         lines=[]
         lines.append('<QUEUED-SENDER-COM-SPEC>')
         lines.append(self.indent('<DATA-ELEMENT-REF DEST="%s">%s</DATA-ELEMENT-REF>'%(elem.tag(self.version),elem.ref),1))
-        if (self.version>=4.0 and comspec.useEndToEndProtection is not None):
+        if ((self.version>=4.0) and (comspec.useEndToEndProtection is not None)):
             lines.append(self.indent('<USES-END-TO-END-PROTECTION>{}</USES-END-TO-END-PROTECTION>'.format(self.toBooleanStr(comspec.useEndToEndProtection)), 1))
         lines.append('</QUEUED-SENDER-COM-SPEC>')
         return lines

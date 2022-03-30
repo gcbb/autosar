@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ElementTree
 import re
+import logging,json
 
 pVersion = re.compile(r"(\d+)\.(\d+)\.(\d+)")
 

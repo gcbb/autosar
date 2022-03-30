@@ -37,6 +37,7 @@ class PackageWriter(BaseWriter):
         lines.extend(self.beginPackage(package.name))
         if len(package.elements)>0:
             lines.append(self.indent("<ELEMENTS>",1))
+            # import ipdb as pdb;pdb.set_trace()
             for elem in package.elements:
                 elemRef = elem.ref
                 ignoreElem=True if (isinstance(ignore, collections.abc.Iterable) and elemRef in ignore) else False

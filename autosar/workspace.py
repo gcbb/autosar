@@ -2,7 +2,6 @@ import autosar.package
 import autosar.parser.package_parser
 import autosar.writer
 from autosar.base import (parseXMLFile, getXMLNamespace, removeNamespace, parseAutosarVersionAndSchema, prepareFilter, parseVersionString)
-import json
 import os
 import ntpath
 import collections
@@ -25,9 +24,26 @@ from autosar.writer.component_writer import XMLComponentTypeWriter, CodeComponen
 from autosar.writer.behavior_writer import XMLBehaviorWriter, CodeBehaviorWriter
 from autosar.writer.signal_writer import SignalWriter
 from autosar.writer.mode_writer import XMLModeWriter
+import logging
+import json
 
 _validWSRoles = ['DataType', 'Constant', 'PortInterface', 'ComponentType', 'ModeDclrGroup', 'CompuMethod', 'Unit',
-                 'BaseType', 'DataConstraint']
+                 'BaseType', 'DataConstraint',
+                 #TODO 以下是手动添加
+                 # 'ApplicationDataType',
+                 # 'DataConstr',
+                 # 'ConstantSpecification',
+                 # 'Sig',
+                 # 'SigGroup',
+                 # 'GlobalTime',
+                 # 'EcuInstance',
+                 # 'ComponentType',
+                 # 'Communication',
+                 # 'CommunicationCluster',
+                 # 'PortInterface',
+                 # 'EndToEnd',
+                 # 'ECUExtractADSC'
+                 ]
 
 class PackageRoles(collections.UserDict):
     def __init__(self, data = None):

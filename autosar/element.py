@@ -1,3 +1,4 @@
+import xml.etree.ElementTree as ElementTree
 import autosar.base
 
 class Element:

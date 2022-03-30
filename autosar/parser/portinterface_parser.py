@@ -243,6 +243,9 @@ class PortInterfacePackageParser(ElementParser):
                     isService = True
             elif xmlElem.tag == 'MODE-GROUP':
                 xmlModeGroup = xmlElem
+            elif xmlElem.tag in ["SERVICE-KIND","DESC"]:
+                print(xmlElem.tag,"未实现")
+                pass
             else:
                 raise NotImplementedError(xmlElem.tag)
 

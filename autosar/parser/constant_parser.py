@@ -137,7 +137,8 @@ class ConstantParser(ElementParser):
                 raise NotImplementedError(xmlElem.tag)
 
         if (xmlFields is not None):
-            record = autosar.constant.RecordValue(label, parent=parent)
+            # record = autosar.constant.RecordValue(label, parent=parent)
+            record = autosar.constant.RecordValueAR4 (label, parent=parent)
             record.elements = self.parseValueV4(xmlFields, record)
             return record
         else:

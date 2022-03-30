@@ -150,6 +150,12 @@ class ComponentTypeParser(ElementParser):
                         elif xmlItem.tag == 'UNQUEUED-RECEIVER-COM-SPEC' or xmlItem.tag == 'NONQUEUED-RECEIVER-COM-SPEC':
                             dataElemName = _getDataElemNameFromComSpec(xmlItem,portInterfaceRef)
                             comspec = autosar.port.DataElementComSpec(dataElemName)
+                            if xmlItem.find('./USES-END-TO-END-PROTECTION') is not None:
+                                comspec.useEndToEndProtection = True if (self.parseTextNode(xmlItem.find('./USES-END-TO-END-PROTECTION')) == 'true') else False
+
+                            if xmlItem.find('./ENABLE-UPDATE') is not None:
+                                comspec.isUpdate = True if (self.parseTextNode(xmlItem.find('./ENABLE-UPDATE')) == 'true') else False
+
                             if xmlItem.find('./ALIVE-TIMEOUT') is not None:
                                 comspec.aliveTimeout = self.parseTextNode(xmlItem.find('./ALIVE-TIMEOUT'))
                             if self.version >= 4.0:
@@ -195,6 +201,9 @@ class ComponentTypeParser(ElementParser):
                         elif xmlItem.tag == 'UNQUEUED-SENDER-COM-SPEC' or xmlItem.tag == 'NONQUEUED-SENDER-COM-SPEC':
                             dataElemName = _getDataElemNameFromComSpec(xmlItem,portInterfaceRef)
                             comspec = autosar.port.DataElementComSpec(dataElemName)
+
+                            if xmlItem.find('./USES-END-TO-END-PROTECTION') is not None:
+                                comspec.useEndToEndProtection = True if ('true'==self.parseTextNode(xmlItem.find('./USES-END-TO-END-PROTECTION'))) else False
                             if self.version >= 4.0:
                                 xmlElem = xmlItem.find('./INIT-VALUE')
                                 if xmlElem != None:

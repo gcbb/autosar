@@ -9,7 +9,6 @@ import autosar.package
 import autosar.rte
 import autosar.builder
 import autosar.port
-import autosar.element
 from abc import (ABC,abstractmethod)
 import autosar.base
 import autosar.bsw.com
@@ -19,6 +18,7 @@ import autosar.util
 import ntpath
 import os
 import xml.etree.ElementTree as ElementTree
+import logging,json
 
 def workspace(version=3.0, patch = 2, schema=None, attributes=None, useDefaultWriters=True):
    if schema is None and ( (version == 3.0 and patch == 2) or (version == "3.0.2") ):
@@ -32,7 +32,7 @@ def splitRef(ref):
    return autosar.base.splitRef(ref)
 
 def DataElement(name, typeRef, isQueued=False, softwareAddressMethodRef=None, swCalibrationAccess=None, swImplPolicy = None, parent=None, adminData=None):
-   return autosar.element.DataElement(name, typeRef, isQueued, softwareAddressMethodRef, swCalibrationAccess, swImplPolicy, parent, adminData)
+   return autosar.portinterface.DataElement(name, typeRef, isQueued, softwareAddressMethodRef, swCalibrationAccess, swImplPolicy, parent, adminData)
 
 def ApplicationError(name, errorCode, parent=None, adminData=None):
    return autosar.portinterface.ApplicationError(name, errorCode, parent, adminData)

@@ -1,7 +1,7 @@
 from autosar.base import parseXMLFile,splitRef,parseTextNode,parseIntNode,hasAdminData,parseAdminDataNode
 from autosar.system import *
 from autosar.parser.parser_base import ElementParser
-
+import logging
 class SystemParser(ElementParser):
     def __init__(self,version=3.0):
         super().__init__(version)
@@ -34,6 +34,17 @@ class SystemParser(ElementParser):
                     self.parseSystemMapping(xmlElem,system)
                 elif xmlElem.tag=='SOFTWARE-COMPOSITION':
                     self.parseSoftwareComposition(xmlElem,system)
+                    
+                #elif xmlElem.tag in ['ECU-EXTRACT-VERSION',
+                #                     'FIBEX-ELEMENTS',
+                #                     'CATEGORY',
+                 #                    'MAPPINGS',#信号map
+                #                     'PNC-VECTOR-LENGTH',
+                #                     'PNC-VECTOR-OFFSET',
+                #                     'ROOT-SOFTWARE-COMPOSITIONS',
+                #                     'SYSTEM-VERSION'
+                #                     ]:
+                #    logging.debug('没有 处理'+ xmlElem.tag)
                 else:
                     raise NotImplementedError(xmlElem.tag)
             return system

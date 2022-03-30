@@ -1,5 +1,5 @@
-import collections
 from autosar.element import (Element, DataElement)
+import collections
 import autosar.base
 import autosar.mode
 

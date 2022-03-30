@@ -362,7 +362,7 @@ class OperationComSpec(ComSpec):
         self.queueLength=queueLength
 
 class DataElementComSpec(ComSpec):
-    def __init__(self, name=None, initValue=None, initValueRef=None, aliveTimeout=None, queueLength=None, canInvalidate=None, useEndToEndProtection = None):
+    def __init__(self, name=None, initValue=None, initValueRef=None, aliveTimeout=None, queueLength=None, canInvalidate=None, useEndToEndProtection = None,isUpdate=None):
         super().__init__(name)
         if initValue is not None:
             assert(isinstance(initValue, (autosar.constant.Value, autosar.constant.ValueAR4)))
@@ -372,6 +372,7 @@ class DataElementComSpec(ComSpec):
         self._queueLength = int(queueLength) if queueLength is not None else None
         self.canInvalidate = bool(canInvalidate) if canInvalidate is not None else None
         self.useEndToEndProtection = bool(useEndToEndProtection) if useEndToEndProtection is not None else None
+        self.isUpdate = bool(isUpdate) if isUpdate is not None else None
 
     @property
     def aliveTimeout(self):
